@@ -1,0 +1,17 @@
+replicaCount: 3
+
+image:
+  repository: busybox
+  tag: stable
+
+appVersion: v46
+
+databaseHost: "postgres-primary.demo.svc.cluster.local"
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 64Mi

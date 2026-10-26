@@ -1,0 +1,6 @@
+langgraph>=0.2.60
+anthropic>=0.40.0
+mcp>=2.0.0
+requests>=2.32.0
+python-dotenv>=1.0.1
+rich>=13.9.0

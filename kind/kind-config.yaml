@@ -1,0 +1,16 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: ai-sre-demo
+nodes:
+  - role: control-plane
+    extraPortMappings:
+      # prometheus
+      - containerPort: 30090
+        hostPort: 9090
+        protocol: TCP
+      # grafana
+      - containerPort: 30300
+        hostPort: 3000
+        protocol: TCP
+  - role: worker
+  - role: worker

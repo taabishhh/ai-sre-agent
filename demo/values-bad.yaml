@@ -1,0 +1,3 @@
+# typo in the host, this is the bad deploy
+appVersion: v47
+databaseHost: "postgress-primary.demo.svc.cluster.local"

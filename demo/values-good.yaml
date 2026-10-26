@@ -1,0 +1,3 @@
+# points at a name that always resolves inside the cluster
+appVersion: v46
+databaseHost: "kubernetes.default.svc.cluster.local"

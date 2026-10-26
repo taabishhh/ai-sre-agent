@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout-service
+  labels:
+    app: checkout-service
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: checkout-service
+  template:
+    metadata:
+      labels:
+        app: checkout-service
+    spec:
+      containers:
+        - name: checkout-service
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          command: ["/bin/busybox", "sh", "-c"]
+          args:
+            - |
+              echo "starting checkout-service {{ .Values.appVersion }}"
+              echo "loading config from env"
+              if ! nslookup "$DATABASE_HOST" >/tmp/lookup.log 2>&1; then
+                echo "FATAL failed to connect to database: dial tcp: lookup $DATABASE_HOST: no such host"
+                echo "FATAL DATABASE_DSN env var appears misconfigured (host \"$DATABASE_HOST\")"
+                cat /tmp/lookup.log
+                exit 1
+              fi
+              echo "connected to database OK, DATABASE_HOST=$DATABASE_HOST resolved"
+              i=0
+              while true; do
+                i=$((i+1))
+                echo "heartbeat $i checkout-service {{ .Values.appVersion }} OK"
+                sleep 5
+              done
+          env:
+            - name: DATABASE_HOST
+              value: {{ .Values.databaseHost | quote }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
